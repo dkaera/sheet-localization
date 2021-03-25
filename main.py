@@ -1,3 +1,5 @@
+import shutil
+
 from Common import *
 from Spreadsheet import Spreadsheet
 
@@ -11,16 +13,16 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 USAGE = """
 Usage: {0} /path/to/google_credentials.json SPREADSHEET_NAME TARGET
-    
+
     SPREADSHEET_NAME
         If it contains whitespaces, use '' around the name.
 
     TARGET
-        Valid options are: 'android', 'ios', 'ios-swift'
+        Valid options are: 'android', 'ios'
 """
 
 # Make sure we have all necessary parameters specified at command line.
-if (len(sys.argv) < 4):
+if len(sys.argv) < 4:
     print(USAGE.format(sys.argv[0]))
     sys.exit(1)
 # Parse command line arguments.
@@ -29,7 +31,8 @@ documentName = sys.argv[2]
 targetName = sys.argv[3]
 
 print("Connecting to Google Sheets API")
-scope = ["https://spreadsheets.google.com/feeds"]
+# scope = ["https://spreadsheets.google.com/feeds"]
+scope = ["https://www.googleapis.com/auth/drive"]
 credentials = ServiceAccountCredentials.from_json_keyfile_name(credentialsFileName, scope)
 client = gspread.authorize(credentials)
 
@@ -43,19 +46,28 @@ cfg = configurationFromPage(cfgPage)
 
 print("Reading source page")
 srcPage = spreadsheet.sheet("SRC")
-(languages, translations) = parsePage(srcPage, cfg)
+(languages, translations) = parse_page(srcPage, cfg)
 
 print("Found languages: '{0}'".format(languages))
 
-if (targetName == "android"):
-    androidGenerateLocalizationFiles(translations, languages)
-elif (targetName == "ios"):
-    iosGenerateLocalizationFiles(translations, languages)
-    iosGenerateConstantsFiles(translations, languages)
-elif (targetName == "ios-swift"):
-    iosGenerateLocalizationFiles(translations, languages)
-    iosGenerateSwiftConstantsFile(translations, languages)
+print("Reading plural page")
+plural_page = spreadsheet.sheet("PLURAL")
+plural_list = parse_plural_page(plural_page, cfg)
+
+print("Found plurals: '{}'".format(len(plural_list)))
+
+if targetName == "android":
+    # Remove before generate new one
+    if os.path.exists(targetName):
+        shutil.rmtree(targetName)
+    android_generate_localization_files(translations, languages)
+    android_generate_plural_localization_files(plural_list, languages)
+elif targetName == "ios":
+    # Remove before generate new one
+    if os.path.exists(targetName):
+        shutil.rmtree(targetName)
+    ios_generate_localization_files(translations, languages)
+    ios_generate_plural_localization_files(plural_list, languages)
 else:
     print("ERROR: Unknown target")
     sys.exit(1)
-

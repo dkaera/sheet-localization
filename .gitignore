@@ -1,0 +1,6 @@
+/android/
+/ios
+*.json
+.DS_Store
+*.pyc
+/venv
