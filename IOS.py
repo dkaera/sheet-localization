@@ -6,7 +6,6 @@ from itertools import groupby
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-
 IOS_LOCALIZATION_DIR_NESTED_NAME_MASK = u"Strings/{0}/{1}.lproj"
 IOS_LOCALIZATION_DIR_NAME_MASK = u"Strings/{0}.lproj"
 IOS_LOCALIZATION_FILE_NAME = u"Localizable.strings"
@@ -84,7 +83,8 @@ def ios_generate_localization_files(translations, languages):
 def ios_localization(translation, language_id):
     contents = ""
     if translation.iosKey:
-        contents += IOS_LOCALIZATION_FORMAT.format(translation.iosKey, translation.translations[language_id])
+        contents += IOS_LOCALIZATION_FORMAT.format(translation.iosKey, translation.translations[language_id]).replace(
+            "\n", u"\u000A")
     return contents.encode("utf-8")
 
 
@@ -125,7 +125,7 @@ def ios_plural_localization_by_group(group, language_id):
                 continue
             # print("key: {} quantity: {} translation: {}".format(groupItem.iosKey, quantity, translation))
             contents += IOS_PLURAL_SOURCE_KEY.format(quantity)
-            contents += IOS_PLURAL_SOURCE_STRING.format(translation)
+            contents += IOS_PLURAL_SOURCE_STRING.format(translation.replace("\n", u"\u000A"))
         contents += IOS_PLURAL_SOURCE_ITEM_FOOTER
     contents += IOS_PLURAL_SOURCE_FOOTER
     return contents
