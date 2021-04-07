@@ -64,8 +64,8 @@ if targetName == "android":
     android_generate_plural_localization_files(plural_list, languages)
 elif targetName == "ios":
     # Remove before generate new one
-    if os.path.exists(targetName):
-        shutil.rmtree(targetName)
+    if os.path.exists("Strings"):
+        shutil.rmtree("Strings")
     ios_generate_localization_files(translations, languages)
     ios_generate_plural_localization_files(plural_list, languages)
 else:

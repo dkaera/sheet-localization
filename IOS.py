@@ -7,8 +7,8 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
-IOS_LOCALIZATION_DIR_NESTED_NAME_MASK = u"ios/{0}/{1}.lproj"
-IOS_LOCALIZATION_DIR_NAME_MASK = u"ios/{0}.lproj"
+IOS_LOCALIZATION_DIR_NESTED_NAME_MASK = u"Strings/{0}/{1}.lproj"
+IOS_LOCALIZATION_DIR_NAME_MASK = u"Strings/{0}.lproj"
 IOS_LOCALIZATION_FILE_NAME = u"Localizable.strings"
 IOS_COMMON_FILE_NAME = u"Common.strings"
 IOS_LOCALIZATION_FILE_NAME_STRUCT = u"{}.strings"
