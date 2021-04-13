@@ -125,7 +125,7 @@ def ios_plural_localization_by_group(group, language_id):
                 continue
             # print("key: {} quantity: {} translation: {}".format(groupItem.iosKey, quantity, translation))
             contents += IOS_PLURAL_SOURCE_KEY.format(quantity)
-            contents += IOS_PLURAL_SOURCE_STRING.format(translation.replace("\n", u"\u000A"))
+            contents += IOS_PLURAL_SOURCE_STRING.format(translation)
         contents += IOS_PLURAL_SOURCE_ITEM_FOOTER
     contents += IOS_PLURAL_SOURCE_FOOTER
     return contents

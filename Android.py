@@ -60,6 +60,7 @@ def androidLocalization(translations, languageId):
                                                        .translations[languageId]
                                                        .replace('%i', '%d')
                                                        .replace('%@', '%s')
+                                                       .replace(u"\u000A", '\\n')
                                                        .replace("\'", "\\'")
                                                        .replace('&', '&amp;')
                                                        .encode('utf8'))
@@ -81,6 +82,7 @@ def androidPluralLocalization(pluralTranslations, languageId):
                 continue
             contents += ANDROID_PLURAL_ITEM_LOCALIZATION_END_FORMAT.format(key, translation
                                                                            .replace('%i', '%d')
+                                                                           .replace(u"\u000A", '\\n')
                                                                            .replace('&', '&amp;')
                                                                            .replace("\'", "\\'"))
         contents += ANDROID_PLURAL_LOCALIZATION_END_FORMAT
