@@ -4,7 +4,7 @@ from imp import reload
 from itertools import groupby
 
 reload(sys)
-sys.setdefaultencoding("utf-8")
+#sys.setdefaultencoding("utf-8")
 
 IOS_LOCALIZATION_DIR_NESTED_NAME_MASK = u"Strings/{0}/{1}.lproj"
 IOS_LOCALIZATION_DIR_NAME_MASK = u"Strings/{0}.lproj"
